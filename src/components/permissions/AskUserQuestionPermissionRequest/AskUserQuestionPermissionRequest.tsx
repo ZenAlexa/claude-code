@@ -12,16 +12,15 @@ import React, {
 } from 'react'
 import { useSettings } from '../../../hooks/useSettings.js'
 import { useTerminalSize } from '../../../hooks/useTerminalSize.js'
-import { stringWidth } from '../../../ink/stringWidth.js'
-import { useTheme } from '../../../ink.js'
+import { stringWidth, useTheme } from '@anthropic/ink'
 import { useKeybindings } from '../../../keybindings/useKeybinding.js'
 import {
   type AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
   logEvent,
 } from '../../../services/analytics/index.js'
 import { useAppState } from '../../../state/AppState.js'
-import type { Question } from '../../../tools/AskUserQuestionTool/AskUserQuestionTool.js'
-import { AskUserQuestionTool } from '../../../tools/AskUserQuestionTool/AskUserQuestionTool.js'
+import type { Question } from '@claude-code-best/builtin-tools/tools/AskUserQuestionTool/AskUserQuestionTool.js'
+import { AskUserQuestionTool } from '@claude-code-best/builtin-tools/tools/AskUserQuestionTool/AskUserQuestionTool.js'
 import {
   type CliHighlight,
   getCliHighlightPromise,

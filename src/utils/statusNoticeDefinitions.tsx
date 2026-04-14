@@ -1,5 +1,5 @@
 // biome-ignore-all assist/source/organizeImports: ANT-ONLY import markers must not be reordered
-import { Box, Text } from '../ink.js'
+import { Box, Text } from '@anthropic/ink'
 import * as React from 'react'
 import {
   getLargeMemoryFiles,
@@ -17,7 +17,7 @@ import {
   getAuthTokenSource,
   isClaudeAISubscriber,
 } from './auth.js'
-import type { AgentDefinitionsResult } from '../tools/AgentTool/loadAgentsDir.js'
+import type { AgentDefinitionsResult } from '@claude-code-best/builtin-tools/tools/AgentTool/loadAgentsDir.js'
 import {
   getAgentDescriptionsTotalTokens,
   AGENT_DESCRIPTIONS_THRESHOLD,

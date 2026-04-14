@@ -6,14 +6,14 @@ import * as React from 'react'
 import { use, useEffect, useState } from 'react'
 import { getOriginalCwd } from '../../bootstrap/state.js'
 import { useExitOnCtrlCDWithKeybindings } from '../../hooks/useExitOnCtrlCDWithKeybindings.js'
-import { Box, Text } from '../../ink.js'
+import { Box, Text, ListItem } from '@anthropic/ink'
 import { useKeybinding } from '../../keybindings/useKeybinding.js'
 import { getAutoMemPath, isAutoMemoryEnabled } from '../../memdir/paths.js'
 import { logEvent } from '../../services/analytics/index.js'
 import { isAutoDreamEnabled } from '../../services/autoDream/config.js'
 import { readLastConsolidatedAt } from '../../services/autoDream/consolidationLock.js'
 import { useAppState } from '../../state/AppState.js'
-import { getAgentMemoryDir } from '../../tools/AgentTool/agentMemory.js'
+import { getAgentMemoryDir } from '@claude-code-best/builtin-tools/tools/AgentTool/agentMemory.js'
 import { openPath } from '../../utils/browser.js'
 import { getMemoryFiles, type MemoryFileInfo } from '../../utils/claudemd.js'
 import { getClaudeConfigHomeDir } from '../../utils/envUtils.js'
@@ -22,7 +22,6 @@ import { formatRelativeTimeAgo } from '../../utils/format.js'
 import { projectIsInGitRepo } from '../../utils/memory/versions.js'
 import { updateSettingsForSource } from '../../utils/settings/settings.js'
 import { Select } from '../CustomSelect/index.js'
-import { ListItem } from '../design-system/ListItem.js'
 
 /* eslint-disable @typescript-eslint/no-require-imports */
 const teamMemPaths = feature('TEAMMEM')
@@ -49,7 +48,7 @@ export function MemoryFileSelector({
   onSelect,
   onCancel,
 }: Props): React.ReactNode {
-  const existingMemoryFiles = use(getMemoryFiles())
+  const existingMemoryFiles = use(getMemoryFiles()) as MemoryFileInfo[]
 
   // Create entries for User and Project CLAUDE.md even if they don't exist
   const userMemoryPath = join(getClaudeConfigHomeDir(), 'CLAUDE.md')

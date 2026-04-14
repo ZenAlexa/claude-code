@@ -1,9 +1,8 @@
 import figures from 'figures'
 import React, { useMemo } from 'react'
 import { useTerminalSize } from '../../../hooks/useTerminalSize.js'
-import { stringWidth } from '../../../ink/stringWidth.js'
-import { Box, Text } from '../../../ink.js'
-import type { Question } from '../../../tools/AskUserQuestionTool/AskUserQuestionTool.js'
+import { Box, Text, stringWidth } from '@anthropic/ink'
+import type { Question } from '@claude-code-best/builtin-tools/tools/AskUserQuestionTool/AskUserQuestionTool.js'
 import { truncateToWidth } from '../../../utils/format.js'
 
 type Props = {

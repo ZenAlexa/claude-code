@@ -1,19 +1,17 @@
 import figures from 'figures'
 import * as React from 'react'
 import type { SettingSource } from 'src/utils/settings/constants.js'
-import type { KeyboardEvent } from '../../ink/events/keyboard-event.js'
-import { Box, Text } from '../../ink.js'
-import type { ResolvedAgent } from '../../tools/AgentTool/agentDisplay.js'
+import { type KeyboardEvent, Box, Text } from '@anthropic/ink'
+import type { ResolvedAgent } from '@claude-code-best/builtin-tools/tools/AgentTool/agentDisplay.js'
 import {
   AGENT_SOURCE_GROUPS,
   compareAgentsByName,
   getOverrideSourceLabel,
   resolveAgentModelDisplay,
-} from '../../tools/AgentTool/agentDisplay.js'
-import type { AgentDefinition } from '../../tools/AgentTool/loadAgentsDir.js'
+} from '@claude-code-best/builtin-tools/tools/AgentTool/agentDisplay.js'
+import type { AgentDefinition } from '@claude-code-best/builtin-tools/tools/AgentTool/loadAgentsDir.js'
 import { count } from '../../utils/array.js'
-import { Dialog } from '../design-system/Dialog.js'
-import { Divider } from '../design-system/Divider.js'
+import { Dialog, Divider } from '@anthropic/ink'
 import { getAgentSourceDisplayName } from './utils.js'
 
 type Props = {

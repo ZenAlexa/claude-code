@@ -26,23 +26,23 @@ startKeychainPrefetch();
 
 import { feature } from "bun:bundle";
 import {
-	Command as CommanderCommand,
-	InvalidArgumentError,
-	Option,
-} from "@commander-js/extra-typings";
-import chalk from "chalk";
-import { readFileSync } from "fs";
-import mapValues from "lodash-es/mapValues.js";
-import pickBy from "lodash-es/pickBy.js";
-import uniqBy from "lodash-es/uniqBy.js";
-import React from "react";
-import { getOauthConfig } from "./constants/oauth.js";
-import { getRemoteSessionUrl } from "./constants/product.js";
-import { getSystemContext, getUserContext } from "./context.js";
-import { init, initializeTelemetryAfterTrust } from "./entrypoints/init.js";
-import { addToHistory } from "./history.js";
-import type { Root } from "./ink.js";
-import { launchRepl } from "./replLauncher.js";
+  Command as CommanderCommand,
+  InvalidArgumentError,
+  Option,
+} from '@commander-js/extra-typings'
+import chalk from 'chalk'
+import { readFileSync } from 'fs'
+import mapValues from 'lodash-es/mapValues.js'
+import pickBy from 'lodash-es/pickBy.js'
+import uniqBy from 'lodash-es/uniqBy.js'
+import React from 'react'
+import { getOauthConfig } from './constants/oauth.js'
+import { getRemoteSessionUrl } from './constants/product.js'
+import { getSystemContext, getUserContext } from './context.js'
+import { init, initializeTelemetryAfterTrust } from './entrypoints/init.js'
+import { addToHistory } from './history.js'
+import type { Root } from '@anthropic/ink'
+import { launchRepl } from './replLauncher.js'
 import {
 	hasGrowthBookEnvOverride,
 	initializeGrowthBook,
@@ -56,7 +56,6 @@ import {
 	parseFileSpecs,
 } from "./services/api/filesApi.js";
 import { prefetchPassesEligibility } from "./services/api/referral.js";
-import { prefetchOfficialMcpUrls } from "./services/mcp/officialRegistry.js";
 import type {
 	McpSdkServerConfig,
 	McpServerConfig,
@@ -76,7 +75,7 @@ import type { ToolInputJSONSchema } from "./Tool.js";
 import {
 	createSyntheticOutputTool,
 	isSyntheticOutputToolEnabled,
-} from "./tools/SyntheticOutputTool/SyntheticOutputTool.js";
+} from "@claude-code-best/builtin-tools/tools/SyntheticOutputTool/SyntheticOutputTool.js";
 import { getTools } from "./tools.js";
 import {
 	canUserConfigureAdvisor,
@@ -150,10 +149,10 @@ import { relative, resolve } from "path";
 import { isAnalyticsDisabled } from "src/services/analytics/config.js";
 import { getFeatureValue_CACHED_MAY_BE_STALE } from "src/services/analytics/growthbook.js";
 import {
-	type AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
-	logEvent,
-} from "src/services/analytics/index.js";
-import { initializeAnalyticsGates } from "src/services/analytics/sink.js";
+  type AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
+  logEvent,
+} from 'src/services/analytics/index.js'
+import { initializeAnalyticsGates } from 'src/services/analytics/sink.js'
 import {
 	getOriginalCwd,
 	setAdditionalDirectoriesForClaudeMd,
@@ -165,15 +164,15 @@ import {
 import { filterCommandsForRemoteMode, getCommands } from "./commands.js";
 import type { StatsStore } from "./context/stats.js";
 import {
-	launchAssistantInstallWizard,
-	launchAssistantSessionChooser,
-	launchInvalidSettingsDialog,
-	launchResumeChooser,
-	launchSnapshotUpdateDialog,
-	launchTeleportRepoMismatchDialog,
-	launchTeleportResumeWrapper,
-} from "./dialogLaunchers.js";
-import { SHOW_CURSOR } from "./ink/termio/dec.js";
+  launchAssistantInstallWizard,
+  launchAssistantSessionChooser,
+  launchInvalidSettingsDialog,
+  launchResumeChooser,
+  launchSnapshotUpdateDialog,
+  launchTeleportRepoMismatchDialog,
+  launchTeleportResumeWrapper,
+} from './dialogLaunchers.js'
+import { SHOW_CURSOR } from '@anthropic/ink'
 import {
 	exitWithError,
 	exitWithMessage,
@@ -193,17 +192,16 @@ import {
 	VALID_UPDATE_SCOPES,
 } from "./services/plugins/pluginCliCommands.js";
 import { initBundledSkills } from "./skills/bundled/index.js";
-import type { AgentColorName } from "./tools/AgentTool/agentColorManager.js";
+import type { AgentColorName } from "@claude-code-best/builtin-tools/tools/AgentTool/agentColorManager.js";
 import {
 	getActiveAgentsFromList,
 	getAgentDefinitionsWithOverrides,
 	isBuiltInAgent,
 	isCustomAgent,
 	parseAgentsFromJson,
-} from "./tools/AgentTool/loadAgentsDir.js";
+} from "@claude-code-best/builtin-tools/tools/AgentTool/loadAgentsDir.js";
 import type { LogOption } from "./types/logs.js";
 import type { Message as MessageType } from "./types/message.js";
-import { assertMinVersion } from "./utils/autoUpdater.js";
 import {
 	CLAUDE_IN_CHROME_SKILL_HINT,
 	CLAUDE_IN_CHROME_SKILL_HINT_WITH_WEBBROWSER,
@@ -390,7 +388,6 @@ const autoModeStateModule = feature("TRANSCRIPT_CLASSIFIER")
 	: null;
 
 // TeleportRepoMismatchDialog, TeleportResumeWrapper dynamically imported at call sites
-import { migrateAutoUpdatesToSettings } from "./migrations/migrateAutoUpdatesToSettings.js";
 import { migrateBypassPermissionsAcceptedToSettings } from "./migrations/migrateBypassPermissionsAcceptedToSettings.js";
 import { migrateEnableAllProjectMcpServersToSettings } from "./migrations/migrateEnableAllProjectMcpServersToSettings.js";
 import { migrateFennecToOpus } from "./migrations/migrateFennecToOpus.js";
@@ -440,10 +437,10 @@ import {
 	validateSessionRepository,
 } from "./utils/teleport.js";
 import {
-	shouldEnableThinkingByDefault,
-	type ThinkingConfig,
-} from "./utils/thinking.js";
-import { initUser, resetUserCache } from "./utils/user.js";
+  shouldEnableThinkingByDefault,
+  type ThinkingConfig,
+} from './utils/thinking.js'
+import { initUser, resetUserCache } from './utils/user.js'
 import {
 	getTmuxInstallInstructions,
 	isTmuxAvailable,
@@ -587,7 +584,6 @@ async function logStartupTelemetry(): Promise<void> {
 const CURRENT_MIGRATION_VERSION = 11;
 function runMigrations(): void {
 	if (getGlobalConfig().migrationVersion !== CURRENT_MIGRATION_VERSION) {
-		migrateAutoUpdatesToSettings();
 		migrateBypassPermissionsAcceptedToSettings();
 		migrateEnableAllProjectMcpServersToSettings();
 		resetProToOpusDefault();
@@ -692,7 +688,6 @@ export function startDeferredPrefetches(): void {
 
 	// Analytics and feature flag initialization
 	void initializeAnalyticsGates();
-	void prefetchOfficialMcpUrls();
 
 	void refreshModelCapabilities();
 
@@ -1127,14 +1122,15 @@ export async function main() {
 		}
 	}
 
-	// Check for -p/--print and --init-only flags early to set isInteractiveSession before init()
-	// This is needed because telemetry initialization calls auth functions that need this flag
-	const cliArgs = process.argv.slice(2);
-	const hasPrintFlag = cliArgs.includes("-p") || cliArgs.includes("--print");
-	const hasInitOnlyFlag = cliArgs.includes("--init-only");
-	const hasSdkUrl = cliArgs.some((arg) => arg.startsWith("--sdk-url"));
-	const isNonInteractive =
-		hasPrintFlag || hasInitOnlyFlag || hasSdkUrl || !process.stdout.isTTY;
+		// Check for -p/--print and --init-only flags early to set isInteractiveSession before init()
+		// This is needed because telemetry initialization calls auth functions that need this flag
+		const cliArgs = process.argv.slice(2);
+		const hasPrintFlag = cliArgs.includes("-p") || cliArgs.includes("--print");
+		const hasInitOnlyFlag = cliArgs.includes("--init-only");
+		const hasSdkUrl = cliArgs.some((arg) => arg.startsWith("--sdk-url"));
+		const forceInteractive = isEnvTruthy(process.env.CLAUDE_CODE_FORCE_INTERACTIVE);
+		const isNonInteractive =
+			hasPrintFlag || hasInitOnlyFlag || hasSdkUrl || (!forceInteractive && !process.stdout.isTTY);
 
 	// Stop capturing early input for non-interactive modes
 	if (isNonInteractive) {
@@ -2274,7 +2270,17 @@ async function run(): Promise<CommanderCommand> {
 			}
 
 			// Parse the MCP config files/strings if provided
-			let dynamicMcpConfig: Record<string, ScopedMcpServerConfig> = {};
+			let dynamicMcpConfig: Record<string, ScopedMcpServerConfig> = {
+				// Built-in MCP servers (default disabled, user enables via /mcp)
+				"mcp-chrome": {
+					type: "http",
+					url: "http://127.0.0.1:12306/mcp",
+					scope: "dynamic",
+					"headers": {
+						"Authorization": "Bearer my-static-token",
+					}
+				},
+			};
 
 			if (mcpConfig && mcpConfig.length > 0) {
 				// Process mcpConfig array
@@ -2396,7 +2402,7 @@ async function run(): Promise<CommanderCommand> {
 							`Warning: MCP ${plural(blocked.length, "server")} blocked by enterprise policy: ${blocked.join(", ")}\n`,
 						);
 					}
-					dynamicMcpConfig = { ...dynamicMcpConfig, ...allowed };
+					dynamicMcpConfig = { ...dynamicMcpConfig, ...(allowed as Record<string, ScopedMcpServerConfig>) };
 				}
 			}
 
@@ -2668,9 +2674,9 @@ async function run(): Promise<CommanderCommand> {
 			) {
 				/* eslint-disable @typescript-eslint/no-require-imports */
 				const { BRIEF_TOOL_NAME, LEGACY_BRIEF_TOOL_NAME } =
-					require("./tools/BriefTool/prompt.js") as typeof import("./tools/BriefTool/prompt.js");
+					require("@claude-code-best/builtin-tools/tools/BriefTool/prompt.js") as typeof import("@claude-code-best/builtin-tools/tools/BriefTool/prompt.js");
 				const { isBriefEntitled } =
-					require("./tools/BriefTool/BriefTool.js") as typeof import("./tools/BriefTool/BriefTool.js");
+					require("@claude-code-best/builtin-tools/tools/BriefTool/BriefTool.js") as typeof import("@claude-code-best/builtin-tools/tools/BriefTool/BriefTool.js");
 				/* eslint-enable @typescript-eslint/no-require-imports */
 				const parsed = parseToolListFromCLI(baseTools);
 				if (
@@ -2731,7 +2737,6 @@ async function run(): Promise<CommanderCommand> {
 				console.error(warning);
 			});
 
-			void assertMinVersion();
 
 			// claude.ai config fetch: -p mode only (interactive uses useManageMCPConnections
 			// two-phase loading). Kicked off here to overlap with setup(); awaited
@@ -3315,7 +3320,7 @@ async function run(): Promise<CommanderCommand> {
 			) {
 				/* eslint-disable @typescript-eslint/no-require-imports */
 				const { isBriefEntitled } =
-					require("./tools/BriefTool/BriefTool.js") as typeof import("./tools/BriefTool/BriefTool.js");
+					require("@claude-code-best/builtin-tools/tools/BriefTool/BriefTool.js") as typeof import("@claude-code-best/builtin-tools/tools/BriefTool/BriefTool.js");
 				/* eslint-enable @typescript-eslint/no-require-imports */
 				if (isBriefEntitled()) {
 					setUserMsgOptIn(true);
@@ -3334,7 +3339,7 @@ async function run(): Promise<CommanderCommand> {
 				const briefVisibility =
 					feature("KAIROS") || feature("KAIROS_BRIEF")
 						? (
-								require("./tools/BriefTool/BriefTool.js") as typeof import("./tools/BriefTool/BriefTool.js")
+								require("@claude-code-best/builtin-tools/tools/BriefTool/BriefTool.js") as typeof import("@claude-code-best/builtin-tools/tools/BriefTool/BriefTool.js")
 							).isBriefEnabled()
 							? "Call SendUserMessage at checkpoints to mark where things stand."
 							: "The user will see any text you output."
@@ -3370,8 +3375,8 @@ async function run(): Promise<CommanderCommand> {
 					installAsciicastRecorder();
 				}
 
-				const { createRoot } = await import("./ink.js");
-				root = await createRoot(ctx.renderOptions);
+				const { createRoot } = await import('@anthropic/ink')
+				root = await createRoot(ctx.renderOptions)
 
 				// Log startup time now, before any blocking dialog renders. Logging
 				// from REPL's first render (the old location) included however long
@@ -3477,7 +3482,7 @@ async function run(): Promise<CommanderCommand> {
 				// login state are fully loaded.
 				const orgValidation = await validateForceLoginOrg();
 				if (!orgValidation.valid) {
-					await exitWithError(root, orgValidation.message);
+					await exitWithError(root, (orgValidation as { valid: false; message: string }).message);
 				}
 			}
 
@@ -3854,7 +3859,7 @@ async function run(): Promise<CommanderCommand> {
 				// Validate org restriction for non-interactive sessions
 				const orgValidation = await validateForceLoginOrg();
 				if (!orgValidation.valid) {
-					process.stderr.write(orgValidation.message + "\n");
+					process.stderr.write((orgValidation as { valid: false; message: string }).message + "\n");
 					process.exit(1);
 				}
 
@@ -4398,9 +4403,9 @@ async function run(): Promise<CommanderCommand> {
 				// KAIROS block so Agent(name: "foo") can spawn in-process teammates
 				// without TeamCreate. computeInitialTeamContext() is for tmux-spawned
 				// teammates reading their own identity, not the assistant-mode leader.
-				teamContext: feature("KAIROS")
-					? (assistantTeamContext ?? computeInitialTeamContext?.())
-					: computeInitialTeamContext?.(),
+				teamContext: (feature("KAIROS")
+					? (assistantTeamContext ?? computeInitialTeamContext())
+					: computeInitialTeamContext()) as AppState["teamContext"],
 			};
 
 			// Add CLI initial prompt to history
@@ -4462,7 +4467,7 @@ async function run(): Promise<CommanderCommand> {
 				...(uploaderReady && {
 					onTurnComplete: (messages: MessageType[]) => {
 						void uploaderReady.then((uploader) =>
-							uploader?.(messages),
+							(uploader as ((msgs: MessageType[]) => void) | null)?.(messages),
 						);
 					},
 				}),
@@ -4620,13 +4625,13 @@ async function run(): Promise<CommanderCommand> {
 					createLocalSSHSession,
 					SSHSessionError,
 				} = await import("./ssh/createSSHSession.js");
-				let sshSession;
+				let sshSession: import('./ssh/createSSHSession.js').SSHSession | undefined;
 				try {
 					if (_pendingSSH.local) {
 						process.stderr.write(
 							"Starting local ssh-proxy test session...\n",
 						);
-						sshSession = createLocalSSHSession({
+						sshSession = await createLocalSSHSession({
 							cwd: _pendingSSH.cwd,
 							permissionMode: _pendingSSH.permissionMode,
 							dangerouslySkipPermissions:
@@ -4653,7 +4658,7 @@ async function run(): Promise<CommanderCommand> {
 							},
 							isTTY
 								? {
-										onProgress: (msg) => {
+										onProgress: (msg: string) => {
 											hadProgress = true;
 											process.stderr.write(
 												`\r  ${msg}\x1b[K`,
@@ -6027,8 +6032,8 @@ async function run(): Promise<CommanderCommand> {
 				async (
 					ccUrl: string,
 					opts: {
-						print?: string | boolean;
-						outputFormat: string;
+						print?: string | true;
+						outputFormat?: string;
 					},
 				) => {
 					const { parseConnectUrl } =
@@ -6365,20 +6370,20 @@ async function run(): Promise<CommanderCommand> {
 		);
 	// END ANT-ONLY
 
-	// Setup token command
-	program
-		.command("setup-token")
-		.description(
-			"Set up a long-lived authentication token (requires Claude subscription)",
-		)
-		.action(async () => {
-			const [{ setupTokenHandler }, { createRoot }] = await Promise.all([
-				import("./cli/handlers/util.js"),
-				import("./ink.js"),
-			]);
-			const root = await createRoot(getBaseRenderOptions(false));
-			await setupTokenHandler(root);
-		});
+  // Setup token command
+  program
+    .command('setup-token')
+    .description(
+      'Set up a long-lived authentication token (requires Claude subscription)',
+    )
+    .action(async () => {
+      const [{ setupTokenHandler }, { createRoot }] = await Promise.all([
+        import('./cli/handlers/util.js'),
+        import('@anthropic/ink'),
+      ])
+      const root = await createRoot(getBaseRenderOptions(false))
+      await setupTokenHandler(root)
+    })
 
 	// Agents command - list configured agents
 	program
@@ -6482,35 +6487,21 @@ async function run(): Promise<CommanderCommand> {
 			});
 	}
 
-	// Doctor command - check installation health
-	program
-		.command("doctor")
-		.description(
-			"Check the health of your Claude Code auto-updater. Note: The workspace trust dialog is skipped and stdio servers from .mcp.json are spawned for health checks. Only use this command in directories you trust.",
-		)
-		.action(async () => {
-			const [{ doctorHandler }, { createRoot }] = await Promise.all([
-				import("./cli/handlers/util.js"),
-				import("./ink.js"),
-			]);
-			const root = await createRoot(getBaseRenderOptions(false));
-			await doctorHandler(root);
-		});
+  // Doctor command - check installation health
+  program
+    .command('doctor')
+    .description(
+      'Check the health of your Claude Code auto-updater. Note: The workspace trust dialog is skipped and stdio servers from .mcp.json are spawned for health checks. Only use this command in directories you trust.',
+    )
+    .action(async () => {
+      const [{ doctorHandler }, { createRoot }] = await Promise.all([
+        import('./cli/handlers/util.js'),
+        import('@anthropic/ink'),
+      ])
+      const root = await createRoot(getBaseRenderOptions(false))
+      await doctorHandler(root)
+    })
 
-	// claude update
-	//
-	// For SemVer-compliant versioning with build metadata (X.X.X+SHA):
-	// - We perform exact string comparison (including SHA) to detect any change
-	// - This ensures users always get the latest build, even when only the SHA changes
-	// - UI shows both versions including build metadata for clarity
-	program
-		.command("update")
-		.alias("upgrade")
-		.description("Check for updates and install if available")
-		.action(async () => {
-			const { update } = await import("src/cli/update.js");
-			await update();
-		});
 
 	// claude up — run the project's CLAUDE.md "# claude up" setup instructions.
 	if (process.env.USER_TYPE === "ant") {
@@ -6918,7 +6909,7 @@ function maybeActivateBrief(options: unknown): void {
 	// into external builds via BriefTool.ts → prompt.ts.
 	/* eslint-disable @typescript-eslint/no-require-imports */
 	const { isBriefEntitled } =
-		require("./tools/BriefTool/BriefTool.js") as typeof import("./tools/BriefTool/BriefTool.js");
+		require("@claude-code-best/builtin-tools/tools/BriefTool/BriefTool.js") as typeof import("@claude-code-best/builtin-tools/tools/BriefTool/BriefTool.js");
 	/* eslint-enable @typescript-eslint/no-require-imports */
 	const entitled = isBriefEntitled();
 	if (entitled) {

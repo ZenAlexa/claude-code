@@ -1,18 +1,17 @@
 import figures from 'figures'
 import React, { useCallback, useMemo, useRef, useState } from 'react'
 import { useTerminalSize } from '../../../hooks/useTerminalSize.js'
-import type { KeyboardEvent } from '../../../ink/events/keyboard-event.js'
-import { Box, Text } from '../../../ink.js'
+import { type KeyboardEvent, Box, Text } from '@anthropic/ink'
 import {
   useKeybinding,
   useKeybindings,
 } from '../../../keybindings/useKeybinding.js'
 import { useAppState } from '../../../state/AppState.js'
-import type { Question } from '../../../tools/AskUserQuestionTool/AskUserQuestionTool.js'
+import type { Question } from '@claude-code-best/builtin-tools/tools/AskUserQuestionTool/AskUserQuestionTool.js'
 import { getExternalEditor } from '../../../utils/editor.js'
 import { toIDEDisplayName } from '../../../utils/ide.js'
 import { editPromptInEditor } from '../../../utils/promptEditor.js'
-import { Divider } from '../../design-system/Divider.js'
+import { Divider } from '@anthropic/ink'
 import TextInput from '../../TextInput.js'
 import { PermissionRequestTitle } from '../PermissionRequestTitle.js'
 import { PreviewBox } from './PreviewBox.js'

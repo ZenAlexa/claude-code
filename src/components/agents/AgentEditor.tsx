@@ -3,20 +3,19 @@ import figures from 'figures'
 import * as React from 'react'
 import { useCallback, useMemo, useState } from 'react'
 import { useSetAppState } from 'src/state/AppState.js'
-import type { KeyboardEvent } from '../../ink/events/keyboard-event.js'
-import { Box, Text } from '../../ink.js'
+import { type KeyboardEvent, Box, Text } from '@anthropic/ink'
 import { useKeybinding } from '../../keybindings/useKeybinding.js'
 import type { Tools } from '../../Tool.js'
 import {
   type AgentColorName,
   setAgentColor,
-} from '../../tools/AgentTool/agentColorManager.js'
+} from '@claude-code-best/builtin-tools/tools/AgentTool/agentColorManager.js'
 import {
   type AgentDefinition,
   getActiveAgentsFromList,
   isCustomAgent,
   isPluginAgent,
-} from '../../tools/AgentTool/loadAgentsDir.js'
+} from '@claude-code-best/builtin-tools/tools/AgentTool/loadAgentsDir.js'
 import { editFileInEditor } from '../../utils/promptEditor.js'
 import { getActualAgentFilePath, updateAgentFile } from './agentFileUtils.js'
 import { ColorPicker } from './ColorPicker.js'

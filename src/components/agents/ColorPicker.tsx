@@ -1,12 +1,12 @@
 import figures from 'figures'
 import React, { useState } from 'react'
-import type { KeyboardEvent } from '../../ink/events/keyboard-event.js'
-import { Box, Text } from '../../ink.js'
+import type { KeyboardEvent } from '@anthropic/ink'
+import { Box, Text } from '@anthropic/ink'
 import {
   AGENT_COLOR_TO_THEME_COLOR,
   AGENT_COLORS,
   type AgentColorName,
-} from '../../tools/AgentTool/agentColorManager.js'
+} from '@claude-code-best/builtin-tools/tools/AgentTool/agentColorManager.js'
 import { capitalize } from '../../utils/stringUtils.js'
 
 type ColorOption = AgentColorName | 'automatic'

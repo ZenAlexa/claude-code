@@ -29,13 +29,12 @@ import {
 } from '../../../bootstrap/state.js'
 import { generateSessionName } from '../../../commands/rename/generateSessionName.js'
 import { launchUltraplan } from '../../../commands/ultraplan.js'
-import type { KeyboardEvent } from '../../../ink/events/keyboard-event.js'
-import { Box, Text } from '../../../ink.js'
+import { type KeyboardEvent, Box, Text } from '@anthropic/ink'
 import type { AppState } from '../../../state/AppStateStore.js'
-import { AGENT_TOOL_NAME } from '../../../tools/AgentTool/constants.js'
-import { EXIT_PLAN_MODE_V2_TOOL_NAME } from '../../../tools/ExitPlanModeTool/constants.js'
-import type { AllowedPrompt } from '../../../tools/ExitPlanModeTool/ExitPlanModeV2Tool.js'
-import { TEAM_CREATE_TOOL_NAME } from '../../../tools/TeamCreateTool/constants.js'
+import { AGENT_TOOL_NAME } from '@claude-code-best/builtin-tools/tools/AgentTool/constants.js'
+import { EXIT_PLAN_MODE_V2_TOOL_NAME } from '@claude-code-best/builtin-tools/tools/ExitPlanModeTool/constants.js'
+import type { AllowedPrompt } from '@claude-code-best/builtin-tools/tools/ExitPlanModeTool/ExitPlanModeV2Tool.js'
+import { TEAM_CREATE_TOOL_NAME } from '@claude-code-best/builtin-tools/tools/TeamCreateTool/constants.js'
 import { isAgentSwarmsEnabled } from '../../../utils/agentSwarmsEnabled.js'
 import {
   calculateContextPercentages,
@@ -236,7 +235,7 @@ export function ExitPlanModePermissionRequest({
         showClearContext,
         showUltraplan,
         usedPercent: showClearContext
-          ? getContextUsedPercent(usage, mode)
+          ? getContextUsedPercent(usage as { input_tokens: number; cache_creation_input_tokens?: number; cache_read_input_tokens?: number }, mode)
           : null,
         isAutoModeAvailable,
         isBypassPermissionsModeAvailable,

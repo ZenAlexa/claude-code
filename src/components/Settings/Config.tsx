@@ -1,13 +1,6 @@
 // biome-ignore-all assist/source/organizeImports: ANT-ONLY import markers must not be reordered
 import { feature } from 'bun:bundle'
-import {
-  Box,
-  Text,
-  useTheme,
-  useThemeSetting,
-  useTerminalFocus,
-} from '../../ink.js'
-import type { KeyboardEvent } from '../../ink/events/keyboard-event.js'
+import { type KeyboardEvent, Box, Text, useTheme, useThemeSetting, useTerminalFocus } from '@anthropic/ink'
 import * as React from 'react'
 import { useState, useCallback } from 'react'
 import {
@@ -67,19 +60,18 @@ import {
   ChannelDowngradeDialog,
   type ChannelDowngradeChoice,
 } from '../ChannelDowngradeDialog.js'
-import { Dialog } from '../design-system/Dialog.js'
+import { Dialog } from '@anthropic/ink'
 import { Select } from '../CustomSelect/index.js'
 import { OutputStylePicker } from '../OutputStylePicker.js'
 import { LanguagePicker } from '../LanguagePicker.js'
 import {
+  type MemoryFileInfo,
   getExternalClaudeMdIncludes,
   getMemoryFiles,
   hasExternalClaudeMdIncludes,
 } from 'src/utils/claudemd.js'
-import { KeyboardShortcutHint } from '../design-system/KeyboardShortcutHint.js'
+import { Byline, KeyboardShortcutHint, useTabHeaderFocus } from '@anthropic/ink'
 import { ConfigurableShortcutHint } from '../ConfigurableShortcutHint.js'
-import { Byline } from '../design-system/Byline.js'
-import { useTabHeaderFocus } from '../design-system/Tabs.js'
 import { useIsInsideModal } from '../../context/modalContext.js'
 import { SearchBox } from '../SearchBox.js'
 import {
@@ -223,7 +215,7 @@ export function Config({
   const showDefaultViewPicker =
     feature('KAIROS') || feature('KAIROS_BRIEF')
       ? (
-          require('../../tools/BriefTool/BriefTool.js') as typeof import('../../tools/BriefTool/BriefTool.js')
+          require('@claude-code-best/builtin-tools/tools/BriefTool/BriefTool.js') as typeof import('@claude-code-best/builtin-tools/tools/BriefTool/BriefTool.js')
         ).isBriefEntitled()
       : false
   /* eslint-enable @typescript-eslint/no-require-imports */
@@ -300,7 +292,7 @@ export function Config({
     process.env.CLAUDE_CODE_DISABLE_FILE_CHECKPOINTING,
   )
 
-  const memoryFiles = React.use(getMemoryFiles(true))
+  const memoryFiles = React.use(getMemoryFiles(true)) as MemoryFileInfo[]
   const shouldShowExternalIncludesToggle =
     hasExternalClaudeMdIncludes(memoryFiles)
 
@@ -474,6 +466,27 @@ export function Config({
               updateSettingsForSource('userSettings', {
                 promptSuggestionEnabled: enabled ? undefined : false,
               })
+            },
+          },
+        ]
+      : []),
+    ...(feature('POOR')
+      ? [
+          {
+            id: 'poorMode',
+            label: 'Poor mode (save tokens)',
+            value: (() => {
+              const PoorMode = require('../../commands/poor/poorMode.js') as typeof import('../../commands/poor/poorMode.js')
+              return PoorMode.isPoorModeActive()
+            })(),
+            type: 'boolean' as const,
+            onChange(enabled: boolean) {
+              const PoorMode = require('../../commands/poor/poorMode.js') as typeof import('../../commands/poor/poorMode.js')
+              PoorMode.setPoorMode(enabled)
+              setAppState(prev => ({
+                ...prev,
+                promptSuggestionEnabled: !enabled,
+              }))
             },
           },
         ]
@@ -1918,7 +1931,7 @@ export function Config({
               setShowSubmenu(null)
               setTabsHidden(false)
             }}
-            externalIncludes={getExternalClaudeMdIncludes(memoryFiles)}
+            externalIncludes={getExternalClaudeMdIncludes(memoryFiles as MemoryFileInfo[])}
           />
           <Text dimColor>
             <Byline>

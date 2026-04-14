@@ -8,7 +8,7 @@ import {
 } from 'src/services/analytics/index.js'
 import { sanitizeToolNameForAnalytics } from 'src/services/analytics/metadata.js'
 import type { ToolUseConfirm } from '../components/permissions/PermissionRequest.js'
-import { Text } from '../ink.js'
+import { Text } from '@anthropic/ink'
 import type {
   ToolPermissionContext,
   Tool as ToolType,
@@ -17,8 +17,8 @@ import type {
 import {
   consumeSpeculativeClassifierCheck,
   peekSpeculativeClassifierCheck,
-} from '../tools/BashTool/bashPermissions.js'
-import { BASH_TOOL_NAME } from '../tools/BashTool/toolName.js'
+} from '@claude-code-best/builtin-tools/tools/BashTool/bashPermissions.js'
+import { BASH_TOOL_NAME } from '@claude-code-best/builtin-tools/tools/BashTool/toolName.js'
 import type { AssistantMessage } from '../types/message.js'
 import { recordAutoModeDenial } from '../utils/autoModeDenials.js'
 import {
@@ -152,7 +152,7 @@ function useCanUseTool(
                     tool,
                     input,
                     toolUseContext,
-                    messageId: ctx.messageId,
+                    messageId: ctx.messageId!,
                     toolUseID,
                   },
                   { decision: 'reject', source: 'config' },

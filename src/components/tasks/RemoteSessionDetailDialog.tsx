@@ -6,16 +6,15 @@ import type { DeepImmutable } from 'src/types/utils.js'
 import type { CommandResultDisplay } from '../../commands.js'
 import { DIAMOND_FILLED, DIAMOND_OPEN } from '../../constants/figures.js'
 import { useElapsedTime } from '../../hooks/useElapsedTime.js'
-import type { KeyboardEvent } from '../../ink/events/keyboard-event.js'
-import { Box, Link, Text } from '../../ink.js'
+import { type KeyboardEvent, Box, Link, Text } from '@anthropic/ink'
 import type { RemoteAgentTaskState } from '../../tasks/RemoteAgentTask/RemoteAgentTask.js'
 import { getRemoteTaskSessionUrl } from '../../tasks/RemoteAgentTask/RemoteAgentTask.js'
 import {
   AGENT_TOOL_NAME,
   LEGACY_AGENT_TOOL_NAME,
-} from '../../tools/AgentTool/constants.js'
-import { ASK_USER_QUESTION_TOOL_NAME } from '../../tools/AskUserQuestionTool/prompt.js'
-import { EXIT_PLAN_MODE_V2_TOOL_NAME } from '../../tools/ExitPlanModeTool/constants.js'
+} from '@claude-code-best/builtin-tools/tools/AgentTool/constants.js'
+import { ASK_USER_QUESTION_TOOL_NAME } from '@claude-code-best/builtin-tools/tools/AskUserQuestionTool/prompt.js'
+import { EXIT_PLAN_MODE_V2_TOOL_NAME } from '@claude-code-best/builtin-tools/tools/ExitPlanModeTool/constants.js'
 import { openBrowser } from '../../utils/browser.js'
 import { errorMessage } from '../../utils/errors.js'
 import { formatDuration, truncateToWidth } from '../../utils/format.js'
@@ -24,14 +23,13 @@ import { EMPTY_LOOKUPS, normalizeMessages } from '../../utils/messages.js'
 import { plural } from '../../utils/stringUtils.js'
 import { teleportResumeCodeSession } from '../../utils/teleport.js'
 import { Select } from '../CustomSelect/select.js'
-import { Byline } from '../design-system/Byline.js'
-import { Dialog } from '../design-system/Dialog.js'
-import { KeyboardShortcutHint } from '../design-system/KeyboardShortcutHint.js'
+import { Byline, Dialog, KeyboardShortcutHint } from '@anthropic/ink'
 import { Message } from '../Message.js'
 import {
   formatReviewStageCounts,
   RemoteSessionProgress,
 } from './RemoteSessionProgress.js'
+import { AssistantMessage } from 'src/types/message.js'
 
 type Props = {
   session: DeepImmutable<RemoteAgentTaskState>
@@ -125,7 +123,8 @@ function UltraplanSessionDetail({
     let lastBlock: { name: string; input: unknown } | null = null
     for (const msg of session.log) {
       if (msg.type !== 'assistant') continue
-      for (const block of msg.message.content) {
+      const content = (msg.message as { content?: unknown[] })?.content ?? []
+      for (const block of content as Array<{type: string; name: string; input: unknown}>) {
         if (block.type !== 'tool_use') continue
         calls++
         lastBlock = block
@@ -614,7 +613,7 @@ export function RemoteSessionDetailDialog({
               {lastMessages.map((msg, i) => (
                 <Message
                   key={i}
-                  message={msg}
+                  message={msg as AssistantMessage}
                   lookups={EMPTY_LOOKUPS}
                   addMargin={i > 0}
                   tools={toolUseContext.options.tools}

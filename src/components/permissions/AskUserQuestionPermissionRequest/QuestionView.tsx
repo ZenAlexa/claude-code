@@ -1,12 +1,11 @@
 import figures from 'figures'
 import React, { useCallback, useState } from 'react'
-import type { KeyboardEvent } from '../../../ink/events/keyboard-event.js'
-import { Box, Text } from '../../../ink.js'
+import { type KeyboardEvent, Box, Text } from '@anthropic/ink'
 import { useAppState } from '../../../state/AppState.js'
 import type {
   Question,
   QuestionOption,
-} from '../../../tools/AskUserQuestionTool/AskUserQuestionTool.js'
+} from '@claude-code-best/builtin-tools/tools/AskUserQuestionTool/AskUserQuestionTool.js'
 import type { PastedContent } from '../../../utils/config.js'
 import { getExternalEditor } from '../../../utils/editor.js'
 import { toIDEDisplayName } from '../../../utils/ide.js'
@@ -17,8 +16,9 @@ import {
   Select,
   SelectMulti,
 } from '../../CustomSelect/index.js'
-import { Divider } from '../../design-system/Divider.js'
+import { Divider } from '@anthropic/ink'
 import { FilePathLink } from '../../FilePathLink.js'
+
 import { PermissionRequestTitle } from '../PermissionRequestTitle.js'
 import { PreviewQuestionView } from './PreviewQuestionView.js'
 import { QuestionNavigationBar } from './QuestionNavigationBar.js'
