@@ -422,9 +422,7 @@ import { usePromptsFromClaudeInChrome } from 'src/hooks/usePromptsFromClaudeInCh
 import { getTipToShowOnSpinner, recordShownTip } from 'src/services/tips/tipScheduler.js';
 import type { Theme } from 'src/utils/theme.js';
 import {
-  checkAndDisableBypassPermissionsIfNeeded,
   checkAndDisableAutoModeIfNeeded,
-  useKickOffCheckAndDisableBypassPermissionsIfNeeded,
   useKickOffCheckAndDisableAutoModeIfNeeded,
 } from 'src/utils/permissions/bypassPermissionsKillswitch.js';
 import { SandboxManager } from 'src/utils/sandbox/sandbox-adapter.js';
@@ -434,7 +432,6 @@ import { SandboxPermissionRequest } from 'src/components/permissions/SandboxPerm
 import { SandboxViolationExpandedView } from 'src/components/SandboxViolationExpandedView.js';
 import { useSettingsErrors } from 'src/hooks/notifs/useSettingsErrors.js';
 import { useMcpConnectivityStatus } from 'src/hooks/notifs/useMcpConnectivityStatus.js';
-import { useAutoModeUnavailableNotification } from 'src/hooks/notifs/useAutoModeUnavailableNotification.js';
 import { AUTO_MODE_DESCRIPTION } from 'src/components/AutoModeOptInDialog.js';
 import { useLspInitializationNotification } from 'src/hooks/notifs/useLspInitializationNotification.js';
 import { useLspPluginRecommendation } from 'src/hooks/useLspPluginRecommendation.js';
@@ -467,11 +464,8 @@ import {
 } from '../utils/autoRunIssue.js';
 import type { HookProgress } from '../types/hooks.js';
 import { TungstenLiveMonitor } from '@claude-code-best/builtin-tools/tools/TungstenTool/TungstenLiveMonitor.js';
-/* eslint-disable @typescript-eslint/no-require-imports */
-const WebBrowserPanelModule = feature('WEB_BROWSER_TOOL')
-  ? (require('@claude-code-best/builtin-tools/tools/WebBrowserTool/WebBrowserPanel.js') as typeof import('@claude-code-best/builtin-tools/tools/WebBrowserTool/WebBrowserPanel.js'))
-  : null;
-/* eslint-enable @typescript-eslint/no-require-imports */
+// WebBrowserPanel removed — browser-lite returns results inline via tool_result.
+// For full browser interaction use Claude-in-Chrome MCP tools.
 import { IssueFlagBanner } from '../components/PromptInput/IssueFlagBanner.js';
 import { useIssueFlagBanner } from '../hooks/useIssueFlagBanner.js';
 import { CompanionSprite, CompanionFloatingBubble, MIN_COLS_FOR_FULL_SPRITE } from '../buddy/CompanionSprite.js';
@@ -948,7 +942,6 @@ export function REPL({
     [toolPermissionContext, proactiveActive, isBriefOnly],
   );
 
-  useKickOffCheckAndDisableBypassPermissionsIfNeeded();
   useKickOffCheckAndDisableAutoModeIfNeeded();
 
   const [dynamicMcpConfig, setDynamicMcpConfig] = useState<Record<string, ScopedMcpServerConfig> | undefined>(
@@ -1006,7 +999,6 @@ export function REPL({
   useCanSwitchToExistingSubscription();
   useIDEStatusIndicator({ ideSelection, mcpClients, ideInstallationStatus });
   useMcpConnectivityStatus({ mcpClients });
-  useAutoModeUnavailableNotification();
   usePluginInstallationStatus();
   usePluginAutoupdateNotification();
   useSettingsErrors();
@@ -3314,8 +3306,8 @@ export function REPL({
       queryCheckpoint('query_context_loading_start');
       const [, , defaultSystemPrompt, baseUserContext, systemContext] = await Promise.all([
         // IMPORTANT: do this after setMessages() above, to avoid UI jank
-        checkAndDisableBypassPermissionsIfNeeded(toolPermissionContext, setAppState),
-        // Gated on TRANSCRIPT_CLASSIFIER so GrowthBook kill switch runs wherever auto mode is built in
+        undefined,
+        // Fast-mode circuit breaker check
         feature('TRANSCRIPT_CLASSIFIER')
           ? checkAndDisableAutoModeIfNeeded(toolPermissionContext, setAppState, store.getState().fastMode)
           : undefined,
@@ -5673,7 +5665,7 @@ export function REPL({
                 </Box>
               )}
               {process.env.USER_TYPE === 'ant' && <TungstenLiveMonitor />}
-              {feature('WEB_BROWSER_TOOL') ? WebBrowserPanelModule && <WebBrowserPanelModule.WebBrowserPanel /> : null}
+              {/* WebBrowserPanel removed — browser-lite, no panel */}
               <Box flexGrow={1} />
               {showSpinner && (
                 <SpinnerWithVerb
@@ -6186,8 +6178,8 @@ export function REPL({
                         setInputValue={setInputValue}
                       />
                     )}
-                    {/* Skill improvement survey - appears when improvements detected (ant-only) */}
-                    {process.env.USER_TYPE === 'ant' && skillImprovementSurvey.suggestion && (
+                    {/* Skill improvement survey - appears when improvements detected */}
+                    {skillImprovementSurvey.suggestion && (
                       <SkillImprovementSurvey
                         isOpen={skillImprovementSurvey.isOpen}
                         skillName={skillImprovementSurvey.suggestion.skillName}
